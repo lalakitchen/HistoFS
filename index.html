@@ -130,12 +130,26 @@
   </section>
 
   <!-- Abstract Section -->
-  <section class="section is-light">
-    <div class="container">
-      <h2 class="title is-3 has-text-centered">Abstract</h2>
-      <p class="content has-text-justified">Abstract content goes here...</p>
-    </div>
-  </section>
+<section class="section is-light">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+      Whole Slide Images (WSIs) contain multiple morphological structures, each corresponding to a distinct style. 
+      Performing style transfer may potentially shift the region of interests (RoIs) in the augmented WSIs. 
+      To address these challenges, we propose <strong>HistoFS</strong>, a federated learning framework for computational pathology 
+      on non-i.i.d. feature shifts in WSI classification.
+    </p>
+    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+      Specifically, we introduce <strong>pseudo bag styles</strong> that capture multiple style variations within a single WSI. 
+      In addition, an <strong>authenticity module</strong> is introduced to ensure that RoIs are preserved, allowing local models 
+      to learn WSIs with diverse styles while maintaining essential RoIs. 
+    </p>
+    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+      Extensive experiments validate the <strong>superiority of HistoFS</strong> over state-of-the-art methods on three clinical datasets.
+    </p>
+  </div>
+</section>
+
 
   <!-- Results Section -->
   <section class="section">
