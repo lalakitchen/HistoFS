@@ -116,24 +116,32 @@
     </div>
   </section>
 
-    <!-- Challenges Section -->
-    <section class="section is-light">
-      <div class="container">
-        <h2 class="title is-3 has-text-centered">Challenges</h2>
-        <div class="overview-image">
-          <img src="static/images/non-iid.png" alt="Challenges in Federated Learning for WSIs">
-        </div>
-        <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+   <!-- Challenges Section -->
+<section class="section is-light">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered">Challenges</h2>
+    <div class="columns is-vcentered">
+      <!-- Text Content (Left) -->
+      <div class="column is-6">
+        <p class="content has-text-justified">
           In federated learning for WSIs, each institution is treated as a client, where WSIs exhibit distinct style distributions. 
           The patch features extracted by the SSL-ViT encoder from four different institutions are visualized via t-SNE. It is evident that 
-          WSIs from different institutions form well-separated clusters, indicating significant domain shifts. 
+          WSIs from different institutions form well-separated clusters, indicating significant domain shifts.
         </p>
-        <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+        <p class="content has-text-justified">
           Previous works have often overlooked these diverse distributions, leading to suboptimal performance. 
           The challenge lies in handling the non-i.i.d. nature of WSIs while preserving key regions of interest (RoIs) during federated training.
         </p>
       </div>
-    </section>
+
+      <!-- Image (Right) -->
+      <div class="column is-6 has-text-centered">
+        <img src="static/images/non-iid.png" alt="Challenges in Federated Learning for WSIs" style="max-width: 100%; height: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
 
     
 
