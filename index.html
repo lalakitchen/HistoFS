@@ -12,6 +12,41 @@
     .author-links a { color: #007bff; text-decoration: none; }
     .author-links a:hover { text-decoration: underline; }
     .resource-links img { width: 50px; height: auto; margin: 10px; }
+    
+    /* Centering images and resizing */
+    .image img {
+      max-width: 80%;
+      height: auto;
+      margin: 20px auto;
+    }
+
+    /* Style for the header section */
+    .hero-body {
+      padding: 2rem 1.5rem;
+    }
+
+    /* Button styles for resources */
+    .resource-links a {
+      display: inline-block;
+      text-align: center;
+      margin: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Table images */
+    .results-table img {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      max-width: 90%;
+      height: auto;
+    }
+
+    /* Footer styles */
+    footer.footer {
+      padding: 1.5rem 1.5rem;
+      background-color: #f5f5f5;
+    }
   </style>
 </head>
 <body>
@@ -19,7 +54,9 @@
   <!-- Header Section -->
   <section class="hero is-light">
     <div class="hero-body has-text-centered">
-      <h1 class="title"><strong>HistoFS</strong>: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving</h1>
+      <h1 class="title">
+        <strong>HistoFS</strong>: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving
+      </h1>
       <h2 class="subtitle">CVPR 2025</h2>
       <div class="author-links">
         <p>
@@ -31,9 +68,15 @@
       </div>
       
       <div class="resource-links">
-        <a href="https://example.com/paper.pdf"><img src="static/images/paper-icon.png" alt="Paper"><br>Paper</a>
-        <a href="https://example.com/video.mp4"><img src="static/images/video-icon.png" alt="Video"><br>Video</a>
-        <a href="https://github.com/lalakitchen/HistoFS"><img src="static/images/github-icon.png" alt="Code"><br>Code</a>
+        <a href="https://example.com/paper.pdf">
+          <img src="static/images/paper-icon.png" alt="Paper"><br>Paper
+        </a>
+        <a href="https://example.com/video.mp4">
+          <img src="static/images/video-icon.png" alt="Video"><br>Video
+        </a>
+        <a href="https://github.com/lalakitchen/HistoFS">
+          <img src="static/images/github-icon.png" alt="Code"><br>Code
+        </a>
       </div>
     </div>
   </section>
@@ -46,8 +89,8 @@
         <img src="static/images/proposed.png" alt="Proposed Method">
       </figure>
       <p class="content has-text-justified">
-        HistoFS: Classifying WSIs in a federated setting. In an FL process ①, we construct pseudo bag styles of each WSI (Sec. \ref{psuedo-bag-style}) and transmit these styles and <strong>W</strong> (weight matrix of the MIL model) to the server (Sec. \ref{server-side}).
-        Then, the server sends back these styles and <strong>W</strong> to all institutions. In the local update ②, we augment local WSIs with pseudo bag styles transfer (Sec. \ref{local-style-transfer}) and employ the authenticity module to preserve RoIs (Sec. \ref{authenticity-module}).
+        HistoFS: Classifying WSIs in a federated setting. In an FL process ①, we construct pseudo bag styles of each WSI and transmit these styles and <strong>W</strong> (weight matrix of the MIL model) to the server.
+        Then, the server sends back these styles and <strong>W</strong> to all institutions. In the local update ②, we augment local WSIs with pseudo bag styles transfer and employ the authenticity module to preserve RoIs.
         Note that, for simplicity, only a single WSI from each institution is visualized.
       </p>
     </div>
@@ -65,14 +108,18 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Results</h2>
-      <p class="content has-text-justified">Comparison with state-of-the-art methods in terms of AUC (%) for the RCC and HER2 datasets.</p>
-      <figure class="image">
+      <p class="content has-text-justified">
+        Comparison with state-of-the-art methods in terms of AUC (%) for the RCC and HER2 datasets.
+      </p>
+      <div class="results-table has-text-centered">
         <img src="static/images/seen.png" alt="Comparison with SOTA for RCC and HER2 datasets">
-      </figure>
-      <p class="content has-text-justified">Comparison with state-of-the-art methods in terms of unseen client evaluation for the Camelyon17 dataset.</p>
-      <figure class="image">
+      </div>
+      <p class="content has-text-justified">
+        Comparison with state-of-the-art methods in terms of unseen client evaluation for the Camelyon17 dataset.
+      </p>
+      <div class="results-table has-text-centered">
         <img src="static/images/unseen.png" alt="Comparison with SOTA for Camelyon17 dataset">
-      </figure>
+      </div>
     </div>
   </section>
 
@@ -80,7 +127,9 @@
   <section class="section is-light">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Acknowledgment</h2>
-      <p class="content has-text-justified">This work was supported by the National Science and Technology Council (NSTC), Taiwan, ROC, under Grant NSTC112-2634-F-006-002.</p>
+      <p class="content has-text-justified">
+        This work was supported by the National Science and Technology Council (NSTC), Taiwan, ROC, under Grant NSTC112-2634-F-006-002.
+      </p>
     </div>
   </section>
 
