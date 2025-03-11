@@ -69,25 +69,23 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      width: 150px; /* Adjust size as needed */
+      width: 150px;
       z-index: 1000;
     }
   </style>
 </head>
 <body>
-  
+
   <!-- CVPR 2025 Logo -->
   <img src="static/images/cvpr2025.png" alt="CVPR 2025 Logo" class="cvpr-logo">
 
   <!-- Header Section -->
   <section class="hero is-light">
     <div class="hero-body has-text-centered">
-
       <h1 class="title">
         <strong>HistoFS:</strong> Non-IID Histopathologic Whole Slide Image Classification 
         <br> via Federated Style Transfer with RoI-Preserving
-    </h1>
-    
+      </h1>
       <h2 class="subtitle">CVPR 2025</h2>
       <div class="author-links">
         <p>
@@ -112,40 +110,54 @@
             <span>Code</span>
         </a>
       </div>
-    
     </div>
   </section>
 
-   <!-- Challenges Section -->
-<section class="section is-light">
-  <div class="container">
-    <h2 class="title is-3 has-text-centered">Challenges</h2>
-    <div class="columns is-vcentered">
-      <!-- Text Content (Left) -->
-      <div class="column is-6">
-        <p class="content has-text-justified">
-          In federated learning for WSIs, each institution is treated as a client, where WSIs exhibit distinct style distributions. 
-          The patch features extracted by the SSL-ViT encoder from four different institutions are visualized via t-SNE. It is evident that 
-          WSIs from different institutions form well-separated clusters, indicating significant domain shifts.
-        </p>
-        <p class="content has-text-justified">
-          Previous works have often overlooked these diverse distributions, leading to suboptimal performance. 
-          The challenge lies in handling the non-i.i.d. nature of WSIs while preserving key regions of interest (RoIs) during federated training.
-        </p>
-      </div>
+  <!-- Abstract Section (1st) -->
+  <section class="section is-light">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Abstract</h2>
+      <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+        Whole Slide Images (WSIs) contain multiple morphological structures, each corresponding to a distinct style. 
+        Performing style transfer may potentially shift the region of interests (RoIs) in the augmented WSIs. 
+        To address these challenges, we propose <strong>HistoFS</strong>, a federated learning framework for computational pathology 
+        on non-i.i.d. feature shifts in WSI classification.
+      </p>
+      <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+        Specifically, we introduce <strong>pseudo bag styles</strong> that capture multiple style variations within a single WSI. 
+        In addition, an <strong>authenticity module</strong> is introduced to ensure that RoIs are preserved, allowing local models 
+        to learn WSIs with diverse styles while maintaining essential RoIs. 
+      </p>
+      <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
+        Extensive experiments validate the <strong>superiority of HistoFS</strong> over state-of-the-art methods on three clinical datasets.
+      </p>
+    </div>
+  </section>
 
-      <!-- Image (Right) -->
-      <div class="column is-6 has-text-centered">
-        <img src="static/images/non-iid.png" alt="Challenges in Federated Learning for WSIs" style="max-width: 100%; height: auto;">
+  <!-- Challenges Section (2nd) -->
+  <section class="section is-light">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Challenges</h2>
+      <div class="columns is-vcentered">
+        <div class="column is-6">
+          <p class="content has-text-justified">
+            In federated learning for WSIs, each institution is treated as a client, where WSIs exhibit distinct style distributions. 
+            The patch features extracted by the SSL-ViT encoder from four different institutions are visualized via t-SNE. It is evident that 
+            WSIs from different institutions form well-separated clusters, indicating significant domain shifts.
+          </p>
+          <p class="content has-text-justified">
+            Previous works have often overlooked these diverse distributions, leading to suboptimal performance. 
+            The challenge lies in handling the non-i.i.d. nature of WSIs while preserving key regions of interest (RoIs) during federated training.
+          </p>
+        </div>
+        <div class="column is-6 has-text-centered">
+          <img src="static/images/non-iid.png" alt="Challenges in Federated Learning for WSIs" style="max-width: 60%; height: auto;">
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-    
-
-  <!-- Overview Section -->
+  <!-- Proposed Section (3rd) -->
   <section class="section">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Proposed</h2>
@@ -155,82 +167,22 @@
       <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
         HistoFS: Classifying WSIs in a federated setting. In an FL process ①, we construct pseudo bag styles of each WSI and transmit these styles and <strong>W</strong> (weight matrix of the MIL model) to the server.
         Then, the server sends back these styles and <strong>W</strong> to all institutions. In the local update ②, we augment local WSIs with pseudo bag styles transfer and employ the authenticity module to preserve RoIs.
-        Note that, for simplicity, only a single WSI from each institution is visualized.
       </p>
     </div>
   </section>
 
-  <!-- Abstract Section -->
-<section class="section is-light">
-  <div class="container">
-    <h2 class="title is-3 has-text-centered">Abstract</h2>
-    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
-      Whole Slide Images (WSIs) contain multiple morphological structures, each corresponding to a distinct style. 
-      Performing style transfer may potentially shift the region of interests (RoIs) in the augmented WSIs. 
-      To address these challenges, we propose <strong>HistoFS</strong>, a federated learning framework for computational pathology 
-      on non-i.i.d. feature shifts in WSI classification.
-    </p>
-    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
-      Specifically, we introduce <strong>pseudo bag styles</strong> that capture multiple style variations within a single WSI. 
-      In addition, an <strong>authenticity module</strong> is introduced to ensure that RoIs are preserved, allowing local models 
-      to learn WSIs with diverse styles while maintaining essential RoIs. 
-    </p>
-    <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
-      Extensive experiments validate the <strong>superiority of HistoFS</strong> over state-of-the-art methods on three clinical datasets.
-    </p>
-  </div>
-</section>
-
-
-  <!-- Results Section -->
+  <!-- Results Section (4th) -->
   <section class="section">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Results</h2>
-
       <div class="results-table has-text-centered">
-        <figure class="image" style="max-width: 80%; margin: auto;">
-            <img src="static/images/seen.png" alt="Comparison with SOTA for RCC and HER2 datasets" style="width: 90%; max-width: 1200px; height: auto;">
-        </figure>
-    </div>
-    
-    <div class="results-table has-text-centered" style="margin-top: 20px;">
-        <figure class="image" style="max-width: 80%; margin: auto;">
-            <img src="static/images/unseen.png" alt="Comparison with SOTA for Camelyon17 dataset" style="width: 90%; max-width: 1200px; height: auto;">
-        </figure>
-    </div>
-    
+        <img src="static/images/seen.png" alt="Comparison with SOTA for RCC and HER2 datasets" style="max-width: 80%; height: auto;">
+      </div>
+      <div class="results-table has-text-centered" style="margin-top: 20px;">
+        <img src="static/images/unseen.png" alt="Comparison with SOTA for Camelyon17 dataset" style="max-width: 80%; height: auto;">
+      </div>
     </div>
   </section>
-
-  <!-- Acknowledgment Section -->
-  <section class="section is-light">
-    <div class="container">
-      <h2 class="title is-3 has-text-centered">Acknowledgment</h2>
-      <p class="content has-text-justified">
-        This work was supported by the National Science and Technology Council (NSTC), Taiwan, ROC, under Grant NSTC112-2634-F-006-002.
-      </p>
-    </div>
-  </section>
-
-  <!-- BibTeX Citation Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3 has-text-centered">BibTeX</h2>
-      <pre><code>@article{raswa2025,
-  author = {Farchan Hakim Raswa and Chun-Shien Lu and Jia-Ching Wang},
-  title = {HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving},
-  journal = {CVPR},
-  year = {2025}
-}</code></pre>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>© 2025 HistoFS Project. All rights reserved.</p>
-    </div>
-  </footer>
 
 </body>
 </html>
