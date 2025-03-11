@@ -12,34 +12,30 @@
     .author-links a { color: #007bff; text-decoration: none; }
     .author-links a:hover { text-decoration: underline; }
     .resource-links img { width: 50px; height: auto; margin: 10px; }
-    
-    /* Centering images and resizing */
-    .image img {
-      max-width: 80%;
-      height: auto;
-      margin: 20px auto;
-    }
 
-    /* Style for the header section */
-    .hero-body {
-      padding: 2rem 1.5rem;
-    }
-
-    /* Button styles for resources */
-    .resource-links a {
-      display: inline-block;
+    /* Center title and break into two lines */
+    .hero-body h1 {
+      font-size: 2rem;
+      max-width: 800px;
+      margin: auto;
       text-align: center;
-      margin: 10px;
-      font-size: 1.2rem;
+      line-height: 1.3;
     }
 
-    /* Table images */
-    .results-table img {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 5px;
-      max-width: 90%;
+    /* Resize and center the overview figure */
+    .overview-image img {
+      max-width: 65%;
       height: auto;
+      display: block;
+      margin: auto;
+    }
+
+    /* Resize and properly align results */
+    .results-table img {
+      max-width: 70%;
+      height: auto;
+      display: block;
+      margin: 15px auto;
     }
 
     /* Footer styles */
@@ -55,7 +51,8 @@
   <section class="hero is-light">
     <div class="hero-body has-text-centered">
       <h1 class="title">
-        <strong>HistoFS</strong>: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving
+        <strong>HistoFS:</strong> Non-IID Histopathologic Whole Slide Image Classification <br>
+        via Federated Style Transfer with RoI-Preserving
       </h1>
       <h2 class="subtitle">CVPR 2025</h2>
       <div class="author-links">
@@ -85,10 +82,8 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Overview</h2>
-      <div class="has-text-centered">
-        <figure class="image" style="max-width: 70%; margin: auto;">
-          <img src="static/images/proposed.png" alt="Proposed Method" style="width: 50%; height: 50%;">
-        </figure>
+      <div class="overview-image">
+        <img src="static/images/proposed.png" alt="Proposed Method">
       </div>
       <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
         HistoFS: Classifying WSIs in a federated setting. In an FL process ①, we construct pseudo bag styles of each WSI and transmit these styles and <strong>W</strong> (weight matrix of the MIL model) to the server.
@@ -107,23 +102,27 @@
   </section>
 
   <!-- Results Section -->
-  <section class="section">
-    <div class="container">
-      <h2 class="title is-3 has-text-centered">Results</h2>
-      <p class="content has-text-justified">
-        Comparison with state-of-the-art methods in terms of AUC (%) for the RCC and HER2 datasets.
-      </p>
-      <div class="results-table has-text-centered">
-        <img src="static/images/seen.png" alt="Comparison with SOTA for RCC and HER2 datasets">
-      </div>
-      <p class="content has-text-justified">
-        Comparison with state-of-the-art methods in terms of unseen client evaluation for the Camelyon17 dataset.
-      </p>
-      <div class="results-table has-text-centered">
-        <img src="static/images/unseen.png" alt="Comparison with SOTA for Camelyon17 dataset">
-      </div>
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+
+    <div class="results-table has-text-centered">
+      <figure class="image" style="max-width: 50%; margin: auto;">
+        <img src="static/images/seen.png" alt="Comparison with SOTA for RCC and HER2 datasets" style="width: 100%; height: auto;">
+      </figure>
+      <p class="content has-text-centered">Comparison with state-of-the-art methods for RCC and HER2 datasets.</p>
     </div>
-  </section>
+
+    <div class="results-table has-text-centered" style="margin-top: 20px;">
+      <figure class="image" style="max-width: 50%; margin: auto;">
+        <img src="static/images/unseen.png" alt="Comparison with SOTA for Camelyon17 dataset" style="width: 100%; height: auto;">
+      </figure>
+      <p class="content has-text-centered">Comparison with state-of-the-art methods for the Camelyon17 dataset.</p>
+    </div>
+
+  </div>
+</section>
+
 
   <!-- Acknowledgment Section -->
   <section class="section is-light">
