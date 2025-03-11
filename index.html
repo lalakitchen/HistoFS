@@ -85,10 +85,12 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-3 has-text-centered">Overview</h2>
-      <figure class="image is-4by3">
-        <img src="static/images/proposed.png" alt="Proposed Method">
-      </figure>
-      <p class="content has-text-justified">
+      <div class="has-text-centered">
+        <figure class="image" style="max-width: 70%; margin: auto;">
+          <img src="static/images/proposed.png" alt="Proposed Method" style="width: 80%; height: 80%;">
+        </figure>
+      </div>
+      <p class="content has-text-justified" style="max-width: 80%; margin: auto;">
         HistoFS: Classifying WSIs in a federated setting. In an FL process ①, we construct pseudo bag styles of each WSI and transmit these styles and <strong>W</strong> (weight matrix of the MIL model) to the server.
         Then, the server sends back these styles and <strong>W</strong> to all institutions. In the local update ②, we augment local WSIs with pseudo bag styles transfer and employ the authenticity module to preserve RoIs.
         Note that, for simplicity, only a single WSI from each institution is visualized.
