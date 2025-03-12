@@ -1,11 +1,11 @@
 # [CVPR 2025] HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving
 
 ## Repository Status
-This repository is under active development and updates will be made continously.
+This repository is under active development and updates will be made continuously.
 
 ### Updates
 - **[2025/03/12]** Repository created.
-- **[2025/03/12]** Dataset creation process updated.
+- **[2025/03/12]** Pseudo Bag Styles process updated.
 
 ---
 
@@ -32,7 +32,7 @@ pip install torch torchvision timm pandas numpy scikit-image Pillow openslide-py
 ---
 
 ## Dataset Preparation
-We follow the same patch division and patch feature extraction configuration as previous works.
+We follow the same patch division and patch feature extraction configuration as DSMIL ([CVPR-2021](https://github.com/binli123/dsmil-wsi)).
 
 ### Preprocessing Steps
 1. Ensure your dataset is structured correctly.
@@ -43,9 +43,21 @@ python tools/compute_zoomtiler_feats.py
 ```
 
 This script will:
-- Perform patch extraction using DeepZoom tiling.
+- Perform patch division using DeepZoom tiling.
 - Extract patch features for downstream analysis.
 
+---
+
+## Pseudo Bag Style Generation
+To generate pseudo bag styles, run the following script:
+
+```bash
+python tools/pseudo_bag_style_generation.py --FEATS_TYPE ssl_vit --dataset c17 --NUM_PSEUDO_STYLE 5
+```
+
+This script will:
+- Perform  K-means clustering with Wasserstein distance on extracted features.
+- Generate pseudo bag style centroids and save them.
 ---
 
 ## Usage
@@ -66,7 +78,6 @@ If you find our work useful, please consider citing:
 ```
 
 ---
-
 
 ## License
 This repository is released under the **MIT License**. See [LICENSE](LICENSE) for details.
