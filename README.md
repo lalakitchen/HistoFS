@@ -14,11 +14,6 @@ This repository is under active development and updates will be made continuousl
 To ensure smooth execution of the project, install the following dependencies:
 
 ```bash
-pip install -r requirements.txt
-```
-
-Alternatively, install them manually:
-```bash
 pip install torch torchvision timm pandas numpy scikit-image Pillow openslide-python tqdm argparse
 ```
 
