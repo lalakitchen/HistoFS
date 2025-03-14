@@ -6,6 +6,7 @@ This repository is under active development and updates will be made continuousl
 ### Updates
 - **[2025/03/12]** Repository created.
 - **[2025/03/12]** Pseudo Bag Styles process updated.
+- **[2025/03/14]** Added `non_iid_visualization.ipynb` for visualizing Non-IID histopathologic whole slide images.
 
 ---
 
@@ -56,8 +57,18 @@ python tools/pseudo_bag_style_generation.py --FEATS_TYPE ssl_vit --dataset c17 -
 ```
 
 This script will:
-- Perform  K-means clustering with Wasserstein distance on extracted features.
+- Perform K-means clustering with Wasserstein distance on extracted features.
 - Generate pseudo bag style centroids and save them.
+
+---
+
+## Visualization
+To visualize Non-IID histopathologic whole slide images, use the `non_iid_visualization.ipynb` notebook:
+
+1. Open Jupyter Notebook and navigate to `non_iid_visualization.ipynb`.
+2. Run the notebook to visualize the style-based clustering and feature distributions.
+3. Ensure that all dependencies are installed before running the visualization.
+
 ---
 
 ## Usage
@@ -81,3 +92,4 @@ If you find our work useful, please consider citing:
 
 ## License
 This repository is released under the **MIT License**. See [LICENSE](LICENSE) for details.
+
