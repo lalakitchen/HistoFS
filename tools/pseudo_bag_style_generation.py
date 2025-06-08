@@ -1,59 +1,83 @@
 import os
-import sys
 import argparse
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
-from collections import defaultdict
-from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
-import ot  # POT library for optimal transport and Wasserstein distance
 
 def wasserstein_distance_2d(mean1, std1, mean2, std2):
-    """Compute the 2-Wasserstein distance between two normal distributions."""
-    return np.sqrt((mean1 - mean2) ** 2 + (std1 - std2) ** 2)
+    """Compute the 2-Wasserstein distance between two 1D Gaussians."""
+    return np.sqrt((mean1 - mean2)**2 + (std1 - std2)**2)
 
-def wasserstein_kmeans(features, n_clusters, max_iters=1000, tol=1e-4):
-    means, stds = features[:, 0], features[:, 1]
-    centroids_means, centroids_stds = np.random.choice(means, n_clusters, replace=False), np.random.choice(stds, n_clusters, replace=False)
-    
+def wasserstein_kmeans(features, num_clusters, max_iters=1000, tol=1e-4):
+    """Cluster [N, 2] features (mean, std) using 2-Wasserstein distance."""
+    means = features[:, 0]
+    stds = features[:, 1]
+
+    centroid_means = np.random.choice(means, num_clusters, replace=False)
+    centroid_stds = np.random.choice(stds, num_clusters, replace=False)
+
     for iteration in range(max_iters):
-        distances = np.array([[wasserstein_distance_2d(m, s, cm, cs) for cm, cs in zip(centroids_means, centroids_stds)] for m, s in zip(means, stds)])
-        cluster_assignments = np.argmin(distances, axis=1)
-        
-        new_centroids_means = np.array([means[cluster_assignments == k].mean() for k in range(n_clusters)])
-        new_centroids_stds = np.array([stds[cluster_assignments == k].mean() for k in range(n_clusters)])
-        
-        if np.linalg.norm(centroids_means - new_centroids_means) < tol and np.linalg.norm(centroids_stds - new_centroids_stds) < tol:
-            print("Convergence reached.")
+        distances = np.array([
+            [wasserstein_distance_2d(m, s, cm, cs) for cm, cs in zip(centroid_means, centroid_stds)]
+            for m, s in zip(means, stds)
+        ])
+        cluster_ids = np.argmin(distances, axis=1)
+
+        new_means = np.array([
+            means[cluster_ids == k].mean() if np.any(cluster_ids == k) else centroid_means[k]
+            for k in range(num_clusters)
+        ])
+        new_stds = np.array([
+            stds[cluster_ids == k].mean() if np.any(cluster_ids == k) else centroid_stds[k]
+            for k in range(num_clusters)
+        ])
+
+        if np.linalg.norm(centroid_means - new_means) < tol and np.linalg.norm(centroid_stds - new_stds) < tol:
+            print(f"Converged at iteration {iteration}")
             break
-        
-        centroids_means, centroids_stds = new_centroids_means, new_centroids_stds
-    
-    return cluster_assignments, centroids_means, centroids_stds
+
+        centroid_means, centroid_stds = new_means, new_stds
+
+    return cluster_ids, centroid_means, centroid_stds
+
+def main(args):
+    csv_path = os.path.join('..', 'labels', args.dataset, 'train.csv')
+    df = pd.read_csv(csv_path)
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    for idx, row in df.iterrows():
+        bag_path = row['patient']
+        if not os.path.isfile(bag_path):
+            print(f"[Skip] File not found: {bag_path}")
+            continue
+
+        style_path = bag_path.replace('/pt/', '/style_pt/')
+        os.makedirs(os.path.dirname(style_path), exist_ok=True)
+
+        features = torch.load(bag_path, map_location=device)
+        feature_dim = 1024 if args.FEATS_TYPE == 'resnet' else 384
+        features = features[:, :feature_dim]  # [N, D]
+
+        patch_means = features.mean(dim=1)  # [N]
+        patch_stds = features.std(dim=1)    # [N]
+        style_features = torch.stack([patch_means, patch_stds], dim=1).cpu().numpy()  # [N, 2]
+
+        cluster_ids, centroid_means, centroid_stds = wasserstein_kmeans(
+            style_features, args.num_pseudo_style)
+
+        torch.save({
+            'pseudo_styles': np.stack([centroid_means, centroid_stds], axis=1).astype(np.float32),  # [K, 2]
+            'cluster_ids': cluster_ids.astype(np.int32),  # [N]
+        }, style_path)
+
+        print(f"[{idx+1}/{len(df)}] Saved pseudo styles to: {style_path}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Pseudo Bag Style Generation.")
-    parser.add_argument("--FEATS_TYPE", default='ssl_vit', type=str, choices=['ssl_vit', 'resnet'], help="Feature type")
-    parser.add_argument("--dataset", default='c17', type=str, choices=['c17', 'tcga_rcc', 'her2'], help="Dataset selection")
-    parser.add_argument("--NUM_PSEUDO_STYLE", default=5, type=int, help="Number of pseudo styles")
+    parser = argparse.ArgumentParser(description="Pseudo Bag Style Generation (HistoFS, mean/std notation).")
+    parser.add_argument("--FEATS_TYPE", default='ssl_vit', choices=['ssl_vit', 'resnet'], help="Feature type")
+    parser.add_argument("--dataset", default='c17', choices=['c17', 'tcga_rcc', 'her2'], help="Dataset name")
+    parser.add_argument("--num_pseudo_style", default=5, type=int, help="Number of pseudo styles (K)")
     args = parser.parse_args()
 
-    df = pd.read_csv(os.path.join('..', 'labels', args.dataset, 'train.csv'))
-    tensor_type = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
-    
-    for _, item in df.iterrows():
-        bag_item = item['patient']
-        if os.path.isfile(bag_item):
-            style_path = bag_item.replace('/pt/', '/style_pt/')
-            os.makedirs(os.path.dirname(style_path), exist_ok=True)
-            stacked_data = torch.load(bag_item, map_location='cuda' if torch.cuda.is_available() else 'cpu')
-            
-            feature_dim = 1024 if args.FEATS_TYPE == 'resnet' else 384
-            bag_features = tensor_type(stacked_data[:, :feature_dim])
-            
-            features_np = torch.stack((bag_features.mean(dim=1), bag_features.std(dim=1)), dim=1).cpu().numpy()
-            cluster_assignments, centroids_means, centroids_stds = wasserstein_kmeans(features_np, args.NUM_PSEUDO_STYLE)
-            
-            torch.save({'centroids_means': centroids_means, 'centroids_stds': centroids_stds}, style_path)
+    main(args)
