@@ -1,79 +1,79 @@
-# [CVPR 2025] HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving
-
-## Repository Status
-This repository is under active development and updates will be made continuously.
-
-### Updates
-- **[2025/03/12]** Repository created.
-- **[2025/03/12]** Pseudo Bag Styles process updated.
-- **[2025/03/14]** Added `non_iid_visualization.ipynb` for visualizing Non-IID histopathologic whole slide images.
+# [CVPR 2025] HistoFS  
+**Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving**
 
 ---
 
-## Dependencies
-To ensure smooth execution of the project, install the following dependencies:
+## 🔧 Repository Status  
+Active development. Recent updates:
+- **2025/07/09**: Added training scripts (`experiments/`)
+- **2025/07/09**: Added test-time evaluation (`evaluations/evaluation.py`)
+- **2025/07/09**: Models saved to `model_checkpoints/`
+
+---
+
+## 📦 Installation
 
 ```bash
 pip install torch torchvision timm pandas numpy scikit-image Pillow openslide-python tqdm argparse
 ```
 
-### Additional Requirements:
-- **Python**: 3.8+
-- **CUDA**: (For GPU acceleration, optional)
-- **OpenSlide**: Required for whole slide image processing. Install via system package manager:
-  - Ubuntu: `sudo apt install openslide-tools`
-  - macOS: `brew install openslide`
-  - Windows: Download and install from [OpenSlide](https://openslide.org/)
+Additional:
+- Python ≥ 3.8  
+- OpenSlide:  
+  - Ubuntu: `sudo apt install openslide-tools`  
+  - macOS: `brew install openslide`  
+  - Windows: [openslide.org](https://openslide.org/)
 
 ---
 
-## Dataset Preparation
-We follow the same patch division and patch feature extraction configuration as DSMIL ([CVPR-2021](https://github.com/binli123/dsmil-wsi)).
-
-### Preprocessing Steps
-1. Ensure your dataset is structured correctly.
-2. Run the dataset preprocessing script:
+## 📁 Dataset & Preprocessing
 
 ```bash
 python tools/compute_zoomtiler_feats.py
 ```
 
-This script will:
-- Perform patch division using DeepZoom tiling.
-- Extract patch features for downstream analysis.
+- Divides WSI into patches
+- Extracts features for training
 
 ---
 
-## Pseudo Bag Style Generation
-To generate pseudo bag styles, run the following script:
+## 🎯 Style Generation
 
 ```bash
 python tools/pseudo_bag_style_generation.py --FEATS_TYPE ssl_vit --dataset c17 --NUM_PSEUDO_STYLE 5
 ```
 
-This script will:
-- Perform K-means clustering with Wasserstein distance on extracted features.
-- Generate pseudo bag style centroids and save them.
+- Applies Wasserstein K-means to extract style centroids
 
 ---
 
-## Visualization
-To visualize Non-IID histopathologic whole slide images, use the `non_iid_visualization.ipynb` notebook:
+## 🚀 Training
 
-1. Open Jupyter Notebook and navigate to `non_iid_visualization.ipynb`.
-2. Run the notebook to visualize the style-based clustering and feature distributions.
-3. Ensure that all dependencies are installed before running the visualization.
+```bash
+# HER2
+python experiments_her2/train_her2_our.py --dataset her2
+
+# TCGA RCC
+python experiments_rcc/train_rcc_our.py --dataset tcga_rcc
+
+# C17
+python experiments_c17/train_c17_our.py --dataset c17
+```
+
+Trained models will be saved to `model_checkpoints/`.
 
 ---
 
-## Usage
-### Training and Evaluation
-More details on training and evaluation scripts will be added soon. Stay tuned!
+## ✅ Evaluation
+
+```bash
+python evaluations/evaluation.py --dataset tcga_rcc --backbone dino --federated FedAvg --style Our
+```
 
 ---
 
-## Citation
-If you find our work useful, please consider citing:
+## 📖 Citation
+
 ```bibtex
 @inproceedings{YourPaper2025,
   title={HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving},
@@ -85,6 +85,5 @@ If you find our work useful, please consider citing:
 
 ---
 
-## License
-This repository is released under the **MIT License**. See [LICENSE](LICENSE) for details.
-
+## 📄 License  
+MIT License. See [LICENSE](LICENSE).

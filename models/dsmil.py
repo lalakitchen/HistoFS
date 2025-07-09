@@ -45,6 +45,11 @@ class BClassifier(nn.Module):
         ### 1D convolutional layer that can handle multiple class (including binary)
         self.fcc = nn.Conv1d(output_class, output_class, kernel_size=input_size)
 
+    def get_statistics(self, m_feats):  
+        m_feats = m_feats.mean(dim=0) 
+        mu = m_feats.mean(dim=0)
+        var = m_feats.var(dim=0, unbiased=False)
+        return mu,var
     
     def forward(self, feats, c): # N x K, N x C
         device = feats.device
@@ -72,7 +77,8 @@ class BClassifier(nn.Module):
         C = self.fcc(B) # 1 x C x 1
         C = C.view(1, -1)
 
-        return C
+        mu, var = self.get_statistics(random_style)
+        return C, mu, var 
     
 class MILNet(nn.Module):
     def __init__(self, i_classifier, b_classifier):
@@ -82,7 +88,7 @@ class MILNet(nn.Module):
         
     def forward(self, x):
         feats, classes = self.i_classifier(x)
-        prediction_bag = self.b_classifier(feats, classes)
+        prediction_bag, mu, var = self.b_classifier(feats, classes)
         
-        return classes, prediction_bag
+        return classes, prediction_bag, mu, var
         
