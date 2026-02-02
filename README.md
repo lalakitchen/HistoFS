@@ -3,13 +3,11 @@
 
 ---
 
-## 🔧 Repository Status  
-Active development. Recent updates:
-- **2025/07/09**: Added training scripts (`experiments/`)
-- **2025/07/09**: Added test-time evaluation (`evaluations/evaluation.py`)
-- **2025/07/09**: Models saved to `model_checkpoints/`
+## 👥 Authors  
 
----
+Farchan Raswa Hakim, Chun-Shien Lu †, Jia-Ching Wang†
+
+\ † Corresponding author
 
 ## 📦 Installation
 
@@ -75,12 +73,15 @@ python evaluations/evaluation.py --dataset tcga_rcc --backbone dino --federated 
 ## 📖 Citation
 
 ```bibtex
-@inproceedings{YourPaper2025,
-  title={HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving},
-  author={Your Name and Others},
-  booktitle={CVPR},
-  year={2025}
+@inproceedings{Raswa2025HistoFS,
+  title     = {HistoFS: Non-IID Histopathologic Whole Slide Image Classification via Federated Style Transfer with RoI-Preserving},
+  author    = {Farchan Hakim Raswa and Chun-Shien Lu and Jia-Ching Wang},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month     = {June},
+  year      = {2025},
+  pages     = {30251--30260}
 }
+
 ```
 
 ---
