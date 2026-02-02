@@ -6,8 +6,7 @@
 ## 👥 Authors  
 
 Farchan Raswa Hakim, Chun-Shien Lu †, Jia-Ching Wang†
-
-\ † Corresponding author
+† Corresponding author
 
 ## 📦 Installation
 
