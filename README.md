@@ -5,7 +5,7 @@
 
 ## 👥 Authors  
 
-Farchan Raswa Hakim, Chun-Shien Lu †, Jia-Ching Wang
+Farchan Hakim Raswa, Chun-Shien Lu †, Jia-Ching Wang
 
 † Corresponding author
 
